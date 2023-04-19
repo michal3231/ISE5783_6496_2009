@@ -6,7 +6,7 @@ import static primitives.Util.isZero;
 import primitives.Point;
 import primitives.Vector;
 //
-// version 1
+// version 2
 //
 /** Test program for the 1st stage
  * @author Dan Zilberstein */
