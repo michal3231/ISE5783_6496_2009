@@ -4,7 +4,7 @@
 package primitives;
 
 import static primitives.Util.isZero;
-
+// ver 3
 /** This class will serve all primitive classes based on three numbers
  * @author Dan Zilberstein */
 public class Double3 {
