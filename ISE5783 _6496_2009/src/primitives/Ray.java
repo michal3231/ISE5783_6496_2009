@@ -1,5 +1,36 @@
 package primitives;
 
-public class Ray {
+import java.util.Objects;
 
+public class Ray {
+	
+	final Point point;
+	final Vector vector;
+	
+	Ray(Vector v,Point p){
+		this.vector=v;
+		this.point=p;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(point, vector);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		 if (!(obj instanceof Ray))
+			 return false;
+		Ray other = (Ray) obj;
+		return Objects.equals(point, other.point) && Objects.equals(vector, other.vector);
+	}
+	
+	public String toString() {
+		return this.vector.toString()+this.point.toString();
+	}
+	 
 }

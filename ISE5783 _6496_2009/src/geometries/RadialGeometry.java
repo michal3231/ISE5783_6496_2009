@@ -1,13 +1,11 @@
-/**
- * 
- */
 package geometries;
 
-/**
- * @author Lilach
- *
- */
-public abstract class RadialGeometry extends Geometry {
-
+public abstract class RadialGeometry implements Geometry {
 	
-}
+		// TODO Auto-generated constructor stub
+		protected final double radius;
+		
+		public RadialGeometry(double radius) {
+			this.radius=radius;
+		}
+	}
