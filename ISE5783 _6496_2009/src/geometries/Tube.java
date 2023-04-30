@@ -8,7 +8,6 @@ public class Tube extends RadialGeometry{
 
 	final Ray axisRay;
 	public Tube(Ray r,double radius) {
-		// TODO Auto-generated constructor stub
 		super(radius);
 		this.axisRay=r;
 	}

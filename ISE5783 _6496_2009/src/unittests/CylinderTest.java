@@ -1,4 +1,4 @@
-package unittests.geometries;
+package unittests;
 
 import geometries.*;
 
@@ -16,7 +16,7 @@ class CylinderTest {
 	@Test
 	void testGetNormal() {
 
-		Cylinder cy = new Cylinder(new Ray(new Point(0, 0, 0), new Vector(0, 0, 1)), 1, 2);
+		Cylinder cy = new Cylinder(new Ray( new Vector(0, 0, 1),new Point(0, 0, 0)), 1, 2);
 		// ============ Equivalence Partitions Tests ==============
 
 		// test when the point is at the top of the cylinder

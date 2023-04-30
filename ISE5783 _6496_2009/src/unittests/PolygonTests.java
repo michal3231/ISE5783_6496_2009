@@ -1,4 +1,4 @@
-package unittests.geometries;
+package unittests;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -85,13 +85,4 @@ public class PolygonTests {
 			assertTrue(isZero(result.dotProduct(pts[i].subtract(pts[i == 0 ? 3 : i - 1]))),
 					"Polygon's normal is not orthogonal to one of the edges");
 	}
-
-	/**
-	 * 
-	 */
-	@Test
-	void TestFindIntersections() {
-
-	}
-
 }

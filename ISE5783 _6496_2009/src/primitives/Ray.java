@@ -7,7 +7,7 @@ public class Ray {
 	final Point point;
 	final Vector vector;
 	
-	Ray(Vector v,Point p){
+	public Ray(Vector v,Point p){
 		this.vector=v;
 		this.point=p;
 	}

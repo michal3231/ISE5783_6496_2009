@@ -2,7 +2,6 @@
  * 
  */
 package unittests;
-import primitives.Point;
 import primitives.Vector;
 
 import static org.junit.jupiter.api.Assertions.*;

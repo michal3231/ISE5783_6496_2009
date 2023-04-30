@@ -2,14 +2,16 @@ package geometries;
 
 import primitives.Point;
 import primitives.Vector;
+import primitives.Ray;
 
-public class Cylinder extends  RadialGeometry {
+
+public class Cylinder extends  Tube {
 
 	double height;
 	
-	public Cylinder(double radius,double h) {
+	public Cylinder(Ray axisRay ,double radius,double h) {
 		// TODO Auto-generated constructor stub
-		super(radius);
+		super(axisRay, radius);
 		this.height=h;
 	}
 	

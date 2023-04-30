@@ -1,4 +1,4 @@
-package unittests.geometries;
+package unittests;
 
 import org.junit.jupiter.api.Test;
 import primitives.*;
@@ -13,8 +13,8 @@ class TubeTest {
 	 */
 	@Test
 	void TestGetNormal() {
-		Ray ray = new Ray(Point.ZERO, new Vector(0, 0, 1));
-		Tube tube = new Tube(Math.sqrt(2), ray);
+		Ray ray = new Ray(new Vector(0, 0, 1),new Point(0,0,0));
+		Tube tube = new Tube(ray,Math.sqrt(2));
 
 		// =============== Equivalence Partitions Tests ==============
 		// TC01: simple check
@@ -23,13 +23,5 @@ class TubeTest {
 		// =============== Boundary Values Tests ==================
 		// TC11: checking if the
 		assertEquals(new Vector(1, 1, 0), tube.getNormal(new Point(1, 1, 1)), "the normal is not correct");
-	}
-
-	/**
-	 * 
-	 */
-	@Test
-	void TestFindIntersections() {
-
 	}
 }
