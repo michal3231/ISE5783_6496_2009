@@ -3,7 +3,8 @@ package primitives;
 public class Vector extends Point {
 
 	/**
-	 * constructor get 3 double check if that points are not create the ZERO vector (using super constructor) 
+	 * constructor get 3 double check if that points are not create the ZERO vector
+	 * (using super constructor)
 	 * 
 	 * @param x
 	 * @param y
@@ -15,9 +16,10 @@ public class Vector extends Point {
 			throw new IllegalArgumentException("ZERO vector");
 		}
 	}
-																																												
+
 	/**
-	 * constructor get Double3 object check if that points are not create the ZERO vector (using super constructor)
+	 * constructor get Double3 object check if that points are not create the ZERO
+	 * vector (using super constructor)
 	 * 
 	 * @param xyz
 	 */
@@ -40,7 +42,7 @@ public class Vector extends Point {
 			return true;
 		return (obj instanceof Vector) && super.equals(obj);
 	}
-	
+
 	/**
 	 * print the vector object
 	 * 
@@ -100,7 +102,7 @@ public class Vector extends Point {
 	 * @return sqr length
 	 */
 	public double lengthSquared() {
-		return dotProduct(this);
+		return xyz.d1 * xyz.d1 + xyz.d2 * xyz.d2 + xyz.d3 * xyz.d3;
 	}
 
 	/**

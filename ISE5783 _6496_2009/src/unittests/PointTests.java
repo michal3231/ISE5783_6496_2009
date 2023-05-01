@@ -61,7 +61,6 @@ class PointTests {
 		Point p2 = new Point(4,5,6);
 		assertEquals(p1.distanceSquared(p2),27, 0.00001, "DistanceSquared() is wrong");
 		
-		
 	}
 
 	/**
@@ -69,14 +68,11 @@ class PointTests {
 	 */
 	@Test
 	void testDistance() {
-		
 		// ============ Equivalence Partitions Tests ==============
 		//TC01: test that Distance is proper
-		
 		Point p1 = new Point(0,0,3);
 		Point p2 = new Point(0,4,0);
 		assertEquals(5, p1.distance(p2), 0.00001, "Distance() is wrong");
-		
 	}
 
 }

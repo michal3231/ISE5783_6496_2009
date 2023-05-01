@@ -1,36 +1,36 @@
 package primitives;
 
-import java.util.Objects;
 
 public class Point {
 
 	Double3 xyz;
-	
-	public Point(double x,double y,double z){
-		this.xyz=new Double3(x,y,z);
+
+	public Point(double x, double y, double z) {
+		this.xyz = new Double3(x, y, z);
 	}
-	
-	Point(Double3 xyz){
-		this.xyz=xyz;
+
+	Point(Double3 xyz) {
+		this.xyz = xyz;
 	}
-	 
+
 	public Vector subtract(Point p) {
 		return new Vector(xyz.subtract(p.xyz));
 	}
-	 
+
 	public Point add(Vector v) {
 		return new Point(xyz.add(v.xyz));
 	}
-	
+
 	public double distanceSquared(Point point) {
-		Point pp=new Point(this.xyz.subtract(point.xyz));
-		pp.xyz=pp.xyz.product(pp.xyz);
-		return pp.xyz.d1+pp.xyz.d2+pp.xyz.d3;
+		double d1 = this.xyz.d1 - point.xyz.d1;
+		double d2 = this.xyz.d2 - point.xyz.d2;
+		double d3 = this.xyz.d3 - point.xyz.d3;
+
+		return d1 * d1 + d2 * d2 + d3 * d3;
 	}
-	//לבדוק בהרצה
+
 	public double distance(Point point) {
-		Point pp=new Point(this.xyz.subtract(point.xyz));
-		return pp.xyz.d1+pp.xyz.d2+pp.xyz.d3;
+		return Math.sqrt(distanceSquared(point));
 	}
 
 	@Override
@@ -44,9 +44,9 @@ public class Point {
 		Point other = (Point) obj;
 		return xyz.equals(other.xyz);
 	}
-	
+
 	@Override
 	public String toString() {
-		return  this.xyz.toString();
+		return this.xyz.toString();
 	}
 }

@@ -11,7 +11,7 @@ public class Plane implements Geometry {
 	public Plane (Point point1, Point point2, Point point3){
 		this.q0=point1;
 		try {
-			normal = point1.subtract(point2).crossProduct(point1.subtract(point3)).normalize()
+			normal = point1.subtract(point2).crossProduct(point1.subtract(point3)).normalize();
 		}
 		catch (IllegalArgumentException e ){
 			throw new IllegalArgumentException ("the point are on the same vector");
