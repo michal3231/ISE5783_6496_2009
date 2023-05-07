@@ -2,13 +2,14 @@ package primitives;
 
 import java.util.Objects;
 
+
 public class Ray {
 	
 	final Point point;
 	final Vector vector;
 	
 	public Ray(Vector v,Point p){
-		this.vector=v;
+		this.vector=v.normalize();
 		this.point=p;
 	}
 
@@ -33,4 +34,11 @@ public class Ray {
 		return this.vector.toString()+this.point.toString();
 	}
 	 
+	public Vector getVec() {
+		return vector;
+	}
+	
+	public Point getPoint() {
+		return point;
+	}
 }

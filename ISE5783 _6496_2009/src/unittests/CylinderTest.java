@@ -16,7 +16,7 @@ class CylinderTest {
 	@Test
 	void testGetNormal() {
 
-	/*	Cylinder cy = new Cylinder(new Ray( new Vector(0, 0, 1),new Point(0, 0, 0)), 1, 2);
+		Cylinder cy = new Cylinder(new Ray( new Vector(0, 0, 1),new Point(0, 0, 0)), 1, 2);
 		// ============ Equivalence Partitions Tests ==============
 
 		// test when the point is at the top of the cylinder
@@ -39,7 +39,7 @@ class CylinderTest {
 
 		// Test when the point is equals to the base point the cylinder
 		assertEquals(new Vector(0, 0, -1), cy.getNormal(new Point(0, 0, 0)),
-				"ERROR: getNormal() at the base of the cylinder wrong result");*/
+				"ERROR: getNormal() at the base of the cylinder wrong result");
 	}
 
 }

@@ -16,11 +16,8 @@ class SphereTest {
 	 */
 	@Test
 	void getNormal() {
-		// positive coordinate sphere and point
-		// assertEquals(new
-		// Vector(0,3/Math.sqrt(36),5/Math.sqrt(36)),sphere1.getNormal(p1), " ")
-		/*assertEquals(new Vector(-2 / Math.sqrt(69), -4 / Math.sqrt(69), -7 / Math.sqrt(69)), sphere1.getNormal(p1),
-				"ERROR: TC 01");*/
+		//TC1  positive coordinate sphere and point
+		assertEquals(new Vector(-2 / Math.sqrt(69), -4 / Math.sqrt(69), -7 / Math.sqrt(69)), sphere1.getNormal(p1),"ERROR: TC 01");
 
 	}
 

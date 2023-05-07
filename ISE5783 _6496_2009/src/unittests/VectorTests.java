@@ -177,6 +177,9 @@ class VectorTests {
 	 */
 	@Test
 	void testNormalize() {
+		// TC:01: A test of the vector normalize in a 3D
+		assertEquals(new Vector(-1 / Math.sqrt(14), -2 / Math.sqrt(14), -3 / Math.sqrt(14)), new Vector(-1, -2, -3).normalize(),
+				"ERROR TC:01");
 	}
 
 }

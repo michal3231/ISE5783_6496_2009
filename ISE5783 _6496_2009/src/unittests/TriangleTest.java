@@ -20,8 +20,8 @@ class TriangleTest {
 		assertThrows(IllegalArgumentException.class,()-> new Triangle(new Point(0, 1, 0), new Point(0, 1, 0), new Point(1, 1, 0)),"ERROR: TC01)");
 
 		// TC02: simple check
-		/*Triangle t = new Triangle(new Point(0, 1, 0), new Point(1, 0, 0), new Point(1, 1, 0));
-		assertEquals(new Vector(-0, -0, -1), t.getNormal(new Point(0, 1, 0)), "ERROR: TC02");*/
+		Triangle t = new Triangle(new Point(0, 1, 0), new Point(1, 0, 0), new Point(1, 1, 0));
+		assertEquals(new Vector(-0, -0, -1), t.getNormal(new Point(0, 1, 0)), "ERROR: TC02");
 	}
 
 }

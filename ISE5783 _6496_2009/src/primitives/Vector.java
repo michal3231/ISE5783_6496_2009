@@ -108,7 +108,7 @@ public class Vector extends Point {
 	/**
 	 * calculate the vector length
 	 * 
-	 * @return legth
+	 * @return length
 	 */
 	public double length() {
 		return Math.sqrt(this.lengthSquared());
