@@ -17,6 +17,10 @@ public class Point {
 		return new Vector(xyz.subtract(p.xyz));
 	}
 
+	public double getX() {
+		return xyz.d1;
+		
+	}
 	public Point add(Vector v) {
 		return new Point(xyz.add(v.xyz));
 	}
