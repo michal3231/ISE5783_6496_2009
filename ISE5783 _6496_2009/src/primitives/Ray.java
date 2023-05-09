@@ -18,6 +18,10 @@ public class Ray {
 		return Objects.hash(point, vector);
 	}
 
+	public Point getPoint(double length) {
+		return Util.isZero(length) ? p0 : p0.add(direction.scale(length));
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
