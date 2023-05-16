@@ -13,6 +13,7 @@ public class Point {
 		this.xyz = xyz;
 	}
 
+	
 	public Vector subtract(Point p) {
 		return new Vector(xyz.subtract(p.xyz));
 	}
@@ -25,6 +26,7 @@ public class Point {
 		return new Point(xyz.add(v.xyz));
 	}
 
+	//calculate the distance between 2 points
 	public double distanceSquared(Point point) {
 		double d1 = this.xyz.d1 - point.xyz.d1;
 		double d2 = this.xyz.d2 - point.xyz.d2;

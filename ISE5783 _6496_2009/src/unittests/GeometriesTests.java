@@ -37,6 +37,7 @@ class GeometriesTests {
 		// =============== Boundary Values Tests ==================
 
 		// TC02 cross all geometries
+		//
 		ray = new Ray( new Vector(0, 4, 1.4),new Point(0, -2, 0.9));
 		assertEquals(4, geometries.findIntersections(ray).size(), "ERROR TC02");
 

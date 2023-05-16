@@ -5,17 +5,17 @@ import java.util.Objects;
 
 public class Ray {
 	
-	final Point point;
-	final Vector vector;
+	final Point p0;
+	final Vector direction;
 	
 	public Ray(Vector v,Point p){
-		this.vector=v.normalize();
-		this.point=p;
+		this.direction=v.normalize();
+		this.p0=p;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(point, vector);
+		return Objects.hash(p0, direction);
 	}
 
 	public Point getPoint(double length) {
@@ -31,18 +31,18 @@ public class Ray {
 		 if (!(obj instanceof Ray))
 			 return false;
 		Ray other = (Ray) obj;
-		return Objects.equals(point, other.point) && Objects.equals(vector, other.vector);
+		return Objects.equals(p0, other.p0) && Objects.equals(direction, other.direction);
 	}
 	
 	public String toString() {
-		return this.vector.toString()+this.point.toString();
+		return this.direction.toString()+this.p0.toString();
 	}
 	 
 	public Vector getVec() {
-		return vector;
+		return direction;
 	}
 	
 	public Point getPoint() {
-		return point;
+		return p0;
 	}
 }

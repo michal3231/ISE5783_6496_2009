@@ -54,9 +54,9 @@ public class Plane implements Geometry {
 		Vector p0direction = p0.subtract(rayP0);
 		
 		/** checking if direction of ray is to plane
-		 * if directionRayScale < 0 the ray direction of the beam is not to the surface of plane
-		 * if directionRayScale = 0 the ray is on surface of plane
-		 * if directionRayScale > 0 the ray direction of the beam is cut the surface of plane
+		 * if directionRayScale < 0 the ray direction of the beam is not to the surface of plane//לא על המשטח
+		 * if directionRayScale = 0 the ray is on surface of plane//על המשטח
+		 * if directionRayScale > 0 the ray direction of the beam is cut the surface of plane//חותך את המשטח
 		 */
 		double directionRayScale = Util.alignZero(this.normal.dotProduct(p0direction)/dotProduct);
 		
