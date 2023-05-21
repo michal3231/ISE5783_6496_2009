@@ -1,7 +1,7 @@
 /**
  * 
  */
-package unittests;
+package unittests.geomtries;
 
 import geometries.*;
 import primitives.Point;

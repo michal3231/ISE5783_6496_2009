@@ -1,4 +1,4 @@
-package unittests;
+package unittests.geomtries;
 
 import org.junit.jupiter.api.Test;
 

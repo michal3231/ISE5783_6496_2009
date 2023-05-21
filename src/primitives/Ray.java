@@ -1,5 +1,6 @@
 package primitives;
 
+import java.util.List;
 import java.util.Objects;
 
 
@@ -32,6 +33,29 @@ public class Ray {
 			 return false;
 		Ray other = (Ray) obj;
 		return Objects.equals(p0, other.p0) && Objects.equals(dir, other.dir);
+	}
+	
+	/**
+	 * this function get list of points and return the closest point to p0 of the
+	 * ray
+	 * 
+	 * @param list of point
+	 * @return closest point to p0      
+	 */
+	public Point findClosestPoint(List<Point> points) {
+		if (points.isEmpty() || points == null)
+			return null;
+
+		double minDistance = Double.POSITIVE_INFINITY;
+		Point closestPoint = null;
+		for (var p : points) {
+			double distance = p.distanceSquared(p0);
+			if (distance < minDistance) {
+				minDistance = distance;
+				closestPoint = p;
+			}
+		}
+		return closestPoint;
 	}
 	
 	public String toString() {
