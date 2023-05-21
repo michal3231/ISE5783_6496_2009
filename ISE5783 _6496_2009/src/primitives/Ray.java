@@ -6,20 +6,20 @@ import java.util.Objects;
 public class Ray {
 	
 	final Point p0;
-	final Vector direction;
+	final Vector dir;
 	
-	public Ray(Vector v,Point p){
-		this.direction=v.normalize();
+	public Ray(Point p ,Vector v){
+		this.dir=v.normalize();
 		this.p0=p;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(p0, direction);
+		return Objects.hash(p0, dir);
 	}
 
 	public Point getPoint(double length) {
-		return Util.isZero(length) ? p0 : p0.add(direction.scale(length));
+		return Util.isZero(length) ? p0 : p0.add(dir.scale(length));
 	}
 	
 	@Override
@@ -31,15 +31,15 @@ public class Ray {
 		 if (!(obj instanceof Ray))
 			 return false;
 		Ray other = (Ray) obj;
-		return Objects.equals(p0, other.p0) && Objects.equals(direction, other.direction);
+		return Objects.equals(p0, other.p0) && Objects.equals(dir, other.dir);
 	}
 	
 	public String toString() {
-		return this.direction.toString()+this.p0.toString();
+		return this.dir.toString()+this.p0.toString();
 	}
 	 
 	public Vector getVec() {
-		return direction;
+		return dir;
 	}
 	
 	public Point getPoint() {

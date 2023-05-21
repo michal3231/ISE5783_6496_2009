@@ -17,6 +17,12 @@ import static org.junit.Assert.assertEquals;
  */
 class VectorTests {
 
+	private Vector vec1 = new Vector(1, 2, 3);
+	private Vector vec2 = new Vector(2, 4, 6);
+	private Vector vec3 = new Vector(1, 2, 4);
+	private Vector vec4 = new Vector(1, 4, -3);
+	private Vector vec5 = new Vector(-1, -2, -3);
+	
 	/**
 	 * Test method for {@link primitives.Vector#add(primitives.Vector)}.
 	 */
@@ -111,29 +117,17 @@ class VectorTests {
 	 * Test method for {@link primitives.Vector#crossProduct(primitives.Vector)}.
 	 */
 	@Test
-	void testCrossProduct() {
-		
-		Vector v1 = new Vector(1, 2, 3);
-
-        // ============ Equivalence Partitions Tests ==============
-		
-        Vector v2 = new Vector(0, 3, -2);
-        Vector vr = v1.crossProduct(v2);
-
-        // TC01: Test that length of cross-product is proper (orthogonal vectors taken
-        // for simplicity)
-        assertEquals(v1.length() * v2.length(), vr.length(), 0.00001, "crossProduct() wrong result length");
-
-        // TC02: Test cross-product result orthogonality to its operands
-        assertTrue(isZero(vr.dotProduct(v1)), "crossProduct() result is not orthogonal to 1st operand");
-        assertTrue(isZero(vr.dotProduct(v2)), "crossProduct() result is not orthogonal to 2nd operand");
-
-        // =============== Boundary Values Tests ==================
-        
-        // TC11: test zero vector from cross-product of co-lined vectors
-        Vector v3 = new Vector(-2, -4, -6);
-        assertThrows(IllegalArgumentException.class, () -> v1.crossProduct(v3),
-                     "crossProduct() for parallel vectors does not throw an exception");
+	void crossProduct() {
+		// TC:01: sharp angle
+		assertEquals(new Vector(2, -1, 0), vec1.crossProduct(vec3), "ERROR: TC:01");
+		// TC:02 Orthogonal angle
+		assertEquals(new Vector(-18, 6, 2), vec1.crossProduct(vec4), "ERROR: TC:02");
+		// TC:03 Obtuse angle
+		assertEquals(new Vector(-22, 7, 2), vec3.crossProduct(vec4), "ERROR: TC:03");
+		// TC:04 Inverted vector
+		assertThrows(IllegalArgumentException.class, () -> vec1.crossProduct(vec5), "ERROR: TC:04");
+		// TC:05 Two vectors with the same direction
+		assertThrows(IllegalArgumentException.class, () -> vec1.crossProduct(vec2), "ERROR: TC:05");
 	}
 
 	/**

@@ -21,7 +21,7 @@ public class Plane implements Geometry {
 		}
 	}
 
-	public Plane(Vector v, Point p) {
+	public Plane( Point p,Vector v) {
 		// TODO Auto-generated constructor stub
 		this.p0 = p;
 		this.normal = v;

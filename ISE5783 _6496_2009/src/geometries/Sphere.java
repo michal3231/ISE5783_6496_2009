@@ -10,7 +10,7 @@ public class Sphere extends RadialGeometry {
 
 	Point center;
 
-	public Sphere(Point p, double radius) {
+	public Sphere(Point p,double radius) {
 		// TODO Auto-generated constructor stub
 		super(radius);
 		this.center = p;
