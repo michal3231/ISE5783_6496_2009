@@ -1,41 +1,64 @@
 package geometries;
 
-import static primitives.Util.isZero;
-import primitives.Point;
-import primitives.Vector;
-import primitives.Ray;
-
 import primitives.*;
+import static primitives.Util.*;
 
+/**
+ * Cylinder class represents cylinder in 3D Cartesian coordinate system
+ */
+public class Cylinder extends Tube {
 
-public class Cylinder extends  Tube {
+	private final double height;
 
-	double height;
-	
-	public Cylinder(Ray axisRay ,double radius,double h) {
-		// TODO Auto-generated constructor stub
-		super(axisRay, radius);
-		this.height=h;
+	// ***************** Constructors ********************** //
+	/**
+	 * Constructs a Cylinder object with the specified axis ray, radius, and height.
+	 * 
+	 * @param axisRay the axis ray of the cylinder
+	 * @param radius  the radius of the cylinder
+	 * @param height  the height of the cylinder
+	 */
+	public Cylinder(Ray axisRay, double radius, double height) {
+		super(radius, axisRay);
+		this.height = height;
 	}
-	
-		
-	//public Vector getNormal(Point p) {
-	//		return null;
-	//}
-	 public Vector getNormal(Point point) {
 
-			Point p0 = axisRay.getPoint();
-			Vector dir = axisRay.getVec();
-			Point pTop = p0.add(dir.scale(height));
+	/**
+	 * simple getter of filed "height"
+	 * 
+	 * @return high of the cylinder
+	 */
+	public double getHeight() {
+		return height;
+	}
 
-			// if the point is at the top of the cylinder
-			if (point.equals(pTop) || Util.isZero(dir.dotProduct(point.subtract(pTop))))
-				return dir;
+	@Override
+	public Vector getNormal(Point point) {
+		Point p0 = axisRay.getP0();
+		Vector dir = axisRay.getDirection();
+		double t;
 
-			// if the point is at the base of the cylinder
-			if (point.equals(p0) || Util.isZero(dir.dotProduct(point.subtract(p0))))
+		// if the point is at the base of the cylinder
+		try {
+			t = dir.dotProduct(point.subtract(p0));
+			if (isZero(t))
 				return dir.scale(-1);
+		} catch (IllegalArgumentException ignore) {
+			// the point is in the center of the base
+			return dir.scale(-1);
+		}
 
-			return super.getNormal(point);
-	    }
+		// if the point is at the top of the cylinder
+		if (isZero(t - height))
+			return dir;
+		if (Util.isZero(dir.dotProduct(point.subtract(p0))))
+			return dir;
+
+		return super.getNormal(point);
+	}
+
+	@Override
+	public String toString() {
+		return "Cylinder{" + super.toString() + "height=" + height + '}';
+	}
 }

@@ -1,13 +1,20 @@
 package unittests.renderer;
 
+import renderer.ImageWriter;
 import org.junit.jupiter.api.Test;
 import primitives.Color;
-import renderer.ImageWriter;
 
+/**
+ * test class to check all function of Image Writer class
+ * 
+ * @author David
+ *
+ */
 class ImageWriterTest {
 
+	/** create grid for test */
 	@Test
-	void testWriteToImage() {
+	void testImageWriter() {
 		final Color color1 = new Color(java.awt.Color.WHITE);
 		final Color color2 = new Color(java.awt.Color.BLUE);
 		final int width = 800;

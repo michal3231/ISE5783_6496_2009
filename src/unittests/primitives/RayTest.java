@@ -1,23 +1,34 @@
 package unittests.primitives;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
-
-import primitives.Point;
+import java.util.List;
 import primitives.Ray;
+import primitives.Point;
 import primitives.Vector;
 
+/**
+ * 
+ * The {@code RayTest} class contains unit tests for the {@link Ray} class.
+ * 
+ * It tests the functionality of the {@link Ray#findClosestPoint(List)} method.
+ */
 class RayTest {
+
+	/**
+	 * objects for test
+	 */
+	private Ray ray = new Ray(new Point(1, 1, 1), new Vector(1, 1, 1));
+	private Point p1 = new Point(0.5, 0.5, 0.5);
+	private Point p2 = new Point(0, 0.5, 0.5);
+	private Point p3 = new Point(-1, 0.5, 0.5);
+
+	/**
+	 * 
+	 * Test method for {@link Ray#findClosestPoint(List)}.
+	 */
 	@Test
 	void TestFindClosestPoint() {
-
-		Ray ray = new Ray(new Point(1, 1, 1), new Vector(1, 1, 1));
-		Point p1 = new Point(0.5, 0.5, 0.5);
-		Point p2 = new Point(0, 0.5, 0.5);
-		Point p3 = new Point(-1, 0.5, 0.5);
 
 		// ============ Equivalence Partitions Tests ==============
 

@@ -1,71 +1,105 @@
 package geometries;
 
 import java.util.List;
+
 import primitives.Point;
-import primitives.Util;
-import primitives.Vector;
 import primitives.Ray;
+import primitives.Vector;
+import primitives.Util;
 
-public class Plane implements Geometry {
+/**
+ * Plane class represents two-dimensional plane in 3D Cartesian coordinate
+ * system
+ */
+public class Plane extends Geometry {
 
-	private final Point p0;
-	private final Vector normal;
+	/**
+	 * reference point on the plane
+	 */
+	protected final Point p0;
 
-	public Plane (Point point1, Point point2, Point point3){
-		this.p0=point1;
-		try {
+	/**
+	 * normal vector of the plane
+	 */
+	protected final Vector normal;
+
+	/**
+	 * Constructs plane by three point on the plane
+	 * 
+	 * @param point1 1st point
+	 * @param point2 2nd point
+	 * @param point3 3rd point
+	 */
+	public Plane(Point point1, Point point2, Point point3) {
+		p0 = point1;
+		try { // try for case the constructor get all point on the same vector or at least two
+				// point are the same
 			normal = point1.subtract(point2).crossProduct(point1.subtract(point3)).normalize();
-		}
-		catch (IllegalArgumentException e ){
-			throw new IllegalArgumentException ("the point are on the same vector");
+		} catch (IllegalArgumentException e) {
+			throw new IllegalArgumentException("your points are on the same vector");
 		}
 	}
 
-	public Plane( Point p,Vector v) {
-		// TODO Auto-generated constructor stub
-		this.p0 = p;
-		this.normal = v;
+	/**
+	 * 
+	 * Constructs a plane using a reference point and a normal vector.
+	 * 
+	 * @param point  reference point on the plane
+	 * @param normal normal vector of the plane
+	 */
+	public Plane(Point point, Vector normal) {
+		this.p0 = point;
+		this.normal = normal.normalize();
 	}
 
+	/**
+	 * getter return the center of plane
+	 * 
+	 * @return point the point that declared the plane
+	 */
+	public Point getPoint() {
+		return p0;
+	}
+
+	/**
+	 * return normal vector
+	 * 
+	 * @return normal the normal of plane
+	 */
 	public Vector getNormal() {
-		return this.normal;
-	}
-
-	public Vector getNormal(Point p) {
-		return this.normal;
+		return normal;
 	}
 
 	@Override
-	public List<Point> findIntersections(Ray ray) {
-		Point rayP0 = ray.getPoint();
-		Vector rayDirection = ray.getVec();
-		
-		/**
-		 * calculate the dotProduct between the ray direction and normal plane
-		 */
-		double dotProduct = this.normal.dotProduct(rayDirection);
-		
-		// Checking whether the plane and the ray intersect each other or are parallel to each other
-		if(Util.isZero(dotProduct)) {
+	public Vector getNormal(Point point) {
+		return normal;
+	}
+
+	@Override
+	public String toString() {
+		return "Plane{" + "point=" + p0 + ", normal=" + normal + '}';
+	}
+
+	@Override
+	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+		Point rayP0 = ray.getP0();
+		Vector rayDirection = ray.getDirection();
+
+		// Ray starts begins in the same point which appears as reference point in the
+		// plane (0 points)
+		if (rayP0.equals(this.p0))
 			return null;
-		}
-		
+
+		// the cosine of the angle between the ray and the normal to the plane
+		double dotProduct = this.normal.dotProduct(rayDirection);
+		// if the ray is parallel to the plane - there are no intersections
+		if (Util.isZero(dotProduct)) // cosine = 0 for a right angle (90 degrees)
+			return null;
+
 		// direction to plane p0 from ray p0
 		Vector p0direction = p0.subtract(rayP0);
-		
-		/** checking if direction of ray is to plane
-		 * if directionRayScale < 0 the ray direction of the beam is not to the surface of plane//לא על המשטח
-		 * if directionRayScale = 0 the ray is on surface of plane//על המשטח
-		 * if directionRayScale > 0 the ray direction of the beam is cut the surface of plane//חותך את המשטח
-		 */
-		double directionRayScale = Util.alignZero(this.normal.dotProduct(p0direction)/dotProduct);
-		
-		if(directionRayScale > 0 ) {
-			// find the intersection by dot product between the direction to plane from the po ray and 
-			// directionRayScale (which calculates the distance between the point and the surface in the given direction)
-			return List.of(rayP0.add(rayDirection.scale(directionRayScale)));
-		}
-		
-		return null;
+		// distance from the ray head to the intersection point
+		double distance = Util.alignZero(this.normal.dotProduct(p0direction) / dotProduct);
+		return distance <= 0 ? null : List.of(new GeoPoint(this, ray.getPoint(distance)));
 	}
 }

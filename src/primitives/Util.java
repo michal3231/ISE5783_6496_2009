@@ -5,8 +5,6 @@ package primitives;
  * 
  * @author Dan
  */
-
-
 public abstract class Util {
 	// It is binary, equivalent to ~1/1,000,000,000,000 in decimal (12 digits)
 	private static final int ACCURACY = -40;
@@ -14,10 +12,10 @@ public abstract class Util {
 	/**
 	 * Empty private constructor to hide the public one
 	 */
-	private Util() {}
+	private Util() {
+	}
 
 	// double store format (bit level):
-	//    seee eeee eeee (1.)mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm
 	// 1 bit sign, 11 bits exponent, 53 bits (52 stored) normalized mantissa
 	// the number is m+2^e where 1<=m<2
 	// NB: exponent is stored "normalized" (i.e. always positive by adding 1023)
@@ -69,6 +67,29 @@ public abstract class Util {
 	 */
 	public static double random(double min, double max) {
 		return Math.random() * (max - min) + min;
+	}
+
+	/**
+	 * Calculates the coefficients of the quadratic equation that describes the
+	 * intersection points between a ray and an axis-aligned cylinder.
+	 * 
+	 * @param rayDirection The direction vector of the ray.
+	 * @param rayOrigin    The origin point of the ray.
+	 * @param axisRay      The ray along the axis of the cylinder.
+	 * @param radius       The radius of the cylinder.
+	 * @return An array containing the coefficients of the quadratic equation
+	 *         [a,b,c].
+	 */
+	public static double[] discriminantParam(Vector rayDirection, Point rayOrigin, Ray axisRay, double radius) {
+		// Calculate the coefficients of the quadratic equation that describes the
+		// intersection points
+		double a = rayDirection.xyz.d1 * rayDirection.xyz.d1 + rayDirection.xyz.d3 * rayDirection.xyz.d3;
+		double b = 2 * (rayOrigin.xyz.d1 - axisRay.getP0().xyz.d1 * rayDirection.xyz.d1
+				+ 2 * (rayOrigin.xyz.d3 - axisRay.getP0().xyz.d3) * rayDirection.xyz.d3);
+		double c = (rayOrigin.xyz.d1 - axisRay.getP0().xyz.d1) * (rayOrigin.xyz.d1 - axisRay.getP0().xyz.d1)
+				+ (rayOrigin.xyz.d3 - axisRay.getP0().xyz.d3) * (rayOrigin.xyz.d3 - axisRay.getP0().xyz.d3)
+				- radius * radius;
+		return new double[] { a, b, c };
 	}
 
 }

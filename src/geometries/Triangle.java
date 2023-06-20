@@ -1,67 +1,66 @@
-/**
- * 
- */
 package geometries;
 
 import java.util.List;
+
+import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
-import primitives.Point;
-
+import static primitives.Util.*;
 
 /**
- * @author USER
- *
+ * class Triangle represents two-dimensional triangle in 3D space
  */
 public class Triangle extends Polygon {
-
 	/**
+	 * constructor using at father constructor
 	 * 
+	 * @param point1 the first triangle point
+	 * @param point2 the second triangle point
+	 * @param point3 the third triangle point
 	 */
-	public Triangle(Point p1, Point p2, Point p3) {
-		// TODO Auto-generated constructor stub
-		super(p1, p2, p3);
+	public Triangle(Point point1, Point point2, Point point3) {
+		super(point1, point2, point3);
 	}
-	
+
 	@Override
-	public List<Point> findIntersections(Ray ray) {
+	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+		var intersection = plane.findGeoIntersectionsHelper(ray);
+		if (intersection == null) // the plane of the triangle is not intersected
+			return null;
 
-		Vector rayDirection = ray.getVec();
+		Vector dir = ray.getDirection();
+		Point p0 = ray.getP0();
 
-		// point of ray p0
-		Point p0 = ray.getPoint();
+		// calculate the vectors from the ray head to all vertices
+		// then calculate all the normals to the resulting pyramid wig
+		// then get analyze the angles between the ray and these normals
+		// by checking that all the angles are of the same sharpness
+		// i.e. the angle cosines have the same sign
 
-		// 3 points of 3 triangle vertex
-		//3 קודקודים של משולש
-		Point p1 = vertices.get(0);
-		Point p2 = vertices.get(1);
-		Point p3 = vertices.get(2);
+		// analyze the 1st side of the triangle
+		Vector vector1 = vertices.get(0).subtract(p0);
+		Vector vector2 = vertices.get(1).subtract(p0);
+		Vector normal1 = vector1.crossProduct(vector2);
+		// if the point is on the line of the 1st side of the triangle
+		double cosine1 = alignZero(dir.dotProduct(normal1));
+		if (cosine1 == 0)
+			return null;
 
-		// calculate the direction from any vertex to ray p0
-		//מחשב את הכיוון מכל קודקוד לקרן p0
-		Vector vector1 = p1.subtract(p0);
-		Vector vector2 = p2.subtract(p0);
-		Vector vector3 = p3.subtract(p0);
+		// analyze the 2nd side of the triangle
+		Vector vector3 = vertices.get(2).subtract(p0);
+		Vector normal2 = vector2.crossProduct(vector3);
+		double cosine2 = alignZero(dir.dotProduct(normal2));
+		if (cosine1 * cosine2 <= 0)
+			return null;
 
-		// calculate the cross product between 3 vectors
-		//חשב את מכפלת החיתוך בין 3 וקטורים
-		Vector crossProduct1 = vector1.crossProduct(vector2);
-		Vector crossProduct2 = vector2.crossProduct(vector3);
-		Vector crossProduct3 = vector3.crossProduct(vector1);
+		// analyze the 2nd side of the triangle
+		Vector normal3 = vector3.crossProduct(vector1);
+		double cosine3 = alignZero(dir.dotProduct(normal3));
+		if (cosine1 * cosine3 <= 0)
+			return null;
 
-		// calculate if the dot product between ray direction and vectors are positive
-		// or negative
-		//מחשב אם מכפלת הנקודה בין כיוון הקרן לוקטורים חיוביים
-		double dotProduct1 = rayDirection.dotProduct(crossProduct1);
-		double dotProduct2 = rayDirection.dotProduct(crossProduct2);
-		double dotProduct3 = rayDirection.dotProduct(crossProduct3);
-
-		// check if all dot product result is with same sign
-		if ((dotProduct1 > 0 && dotProduct2 > 0 && dotProduct3 > 0)
-				|| (dotProduct1 < 0 && dotProduct2 < 0 && dotProduct3 < 0)) {
-			return plane.findIntersections(ray);
-		}
-
-		return null;
+		intersection.get(0).geometry = this;
+		// the point is inside the triangle
+		return intersection;
 	}
 }

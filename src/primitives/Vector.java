@@ -1,14 +1,16 @@
 package primitives;
 
+/**
+ * Vector class represents 3D vector
+ */
 public class Vector extends Point {
 
 	/**
-	 * constructor get 3 double check if that points are not create the ZERO vector
-	 * (using super constructor)
-	 * 
-	 * @param x
-	 * @param y
-	 * @param z
+	 * Constructor to initialize point 3D get three double coordinates
+	 *
+	 * @param x first number value
+	 * @param y second number value
+	 * @param z third number value
 	 */
 	public Vector(double x, double y, double z) {
 		super(x, y, z);
@@ -21,7 +23,7 @@ public class Vector extends Point {
 	 * constructor get Double3 object check if that points are not create the ZERO
 	 * vector (using super constructor)
 	 * 
-	 * @param xyz
+	 * @param xyz a point in space
 	 */
 	Vector(Double3 xyz) {
 		super(xyz);
@@ -31,11 +33,14 @@ public class Vector extends Point {
 	}
 
 	/**
-	 * check if 2 arguments are equals
+	 * getter for xyz point
 	 * 
-	 * @param obj
-	 * @return boolean
+	 * @return this xyz
 	 */
+	public Double3 getVector() {
+		return this.xyz;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -43,11 +48,6 @@ public class Vector extends Point {
 		return (obj instanceof Vector) && super.equals(obj);
 	}
 
-	/**
-	 * print the vector object
-	 * 
-	 * @return
-	 */
 	@Override
 	public String toString() {
 		return "Vector{}" + super.toString();
@@ -56,7 +56,7 @@ public class Vector extends Point {
 	/**
 	 * add vector to other vector
 	 * 
-	 * @param vector2
+	 * @param vector the other vector
 	 * @return new vector
 	 */
 	public Vector add(Vector vector) {
@@ -67,7 +67,7 @@ public class Vector extends Point {
 	/**
 	 * scale coordinate white coordinate
 	 * 
-	 * @param scalar
+	 * @param scalar scalar to scale whit vector
 	 * @return new vector
 	 */
 	public Vector scale(double scalar) {
@@ -77,7 +77,7 @@ public class Vector extends Point {
 	/**
 	 * Scalar product function
 	 * 
-	 * @param vector
+	 * @param vector A vector for a scalar product
 	 * @return Scalar product result
 	 */
 	public double dotProduct(Vector vector) {
@@ -85,10 +85,10 @@ public class Vector extends Point {
 	}
 
 	/**
-	 * vector product
+	 * cross product between to vector
 	 * 
-	 * @param vector
-	 * @return new vertical vector
+	 * @param vector vector for vector multiplication
+	 * @return new normalize vertical vector
 	 */
 	public Vector crossProduct(Vector vector) {
 		return new Vector(xyz.d2 * vector.xyz.d3 - xyz.d3 * vector.xyz.d2,
@@ -107,7 +107,7 @@ public class Vector extends Point {
 	/**
 	 * calculate the vector length
 	 * 
-	 * @return length
+	 * @return legth
 	 */
 	public double length() {
 		return Math.sqrt(this.lengthSquared());

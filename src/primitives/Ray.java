@@ -1,72 +1,100 @@
 package primitives;
 
 import java.util.List;
-import java.util.Objects;
 
+import geometries.Intersectable.GeoPoint;
 
+/**
+ * Ray class represents 3D ray
+ */
 public class Ray {
-	
-	final Point p0;
-	final Vector dir;
-	
-	public Ray(Point p ,Vector v){
-		this.dir=v.normalize();
-		this.p0=p;
+	private final Point p0;
+	private final Vector direction;
+
+	/**
+	 * simple constructor
+	 * 
+	 * @param p0        start point
+	 * @param direction direction vector
+	 */
+	public Ray(Point p0, Vector direction) {
+		this.p0 = p0;
+		this.direction = direction.normalize();
+	}
+
+	/**
+	 * return the p0 point
+	 * 
+	 * @return p0
+	 */
+	public Point getP0() {
+		return p0;
+	}
+
+	/**
+	 * getter
+	 * 
+	 * @return direction vector
+	 */
+	public Vector getDirection() {
+		return direction;
+	}
+
+	/**
+	 * get point on the ray
+	 * 
+	 * @param length distance from the start of the ray
+	 * @return new Point3D
+	 */
+	public Point getPoint(double length) {
+		return Util.isZero(length) ? p0 : p0.add(direction.scale(length));
 	}
 
 	@Override
-	public int hashCode() {
-		return Objects.hash(p0, dir);
+	public String toString() {
+		return p0 + "->" + direction;
 	}
 
-	public Point getPoint(double length) {
-		return Util.isZero(length) ? p0 : p0.add(dir.scale(length));
-	}
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		 if (!(obj instanceof Ray))
-			 return false;
-		Ray other = (Ray) obj;
-		return Objects.equals(p0, other.p0) && Objects.equals(dir, other.dir);
+		return (obj instanceof Ray ray) && p0.equals(ray.p0) && direction.equals(ray.direction);
 	}
-	
+
 	/**
 	 * this function get list of points and return the closest point to p0 of the
 	 * ray
 	 * 
-	 * @param list of point
-	 * @return closest point to p0      
+	 * @param points list of point for search
+	 * @return closestPoint closest point to p0      
 	 */
 	public Point findClosestPoint(List<Point> points) {
-		if (points.isEmpty() || points == null)
+		return points == null || points.isEmpty() ? null
+				: findClosestGeoPoint(points.stream().map(p -> new GeoPoint(null, p)).toList()).point;
+	}
+
+	/**
+	 * this function get list of geoPoints and return the closest geoPoint to p0 of
+	 * the ray
+	 * 
+	 * @param geoPoints list of GeoPoints for search
+	 * @return closestPoint closest GeoPoint to p0      
+	 */
+	public GeoPoint findClosestGeoPoint(List<GeoPoint> geoPoints) {
+		if (geoPoints.isEmpty() || geoPoints == null)
 			return null;
 
 		double minDistance = Double.POSITIVE_INFINITY;
-		Point closestPoint = null;
-		for (var p : points) {
-			double distance = p.distanceSquared(p0);
+		GeoPoint closestPoint = null;
+
+		for (var p : geoPoints) {
+			double distance = p.point.distanceSquared(p0);
 			if (distance < minDistance) {
 				minDistance = distance;
 				closestPoint = p;
 			}
 		}
 		return closestPoint;
-	}
-	
-	public String toString() {
-		return this.dir.toString()+this.p0.toString();
-	}
-	 
-	public Vector getVec() {
-		return dir;
-	}
-	
-	public Point getPoint() {
-		return p0;
 	}
 }
