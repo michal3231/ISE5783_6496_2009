@@ -1,5 +1,6 @@
 package primitives;
 
+import java.util.Random;
 /**
  * Util class is used for some internal utilities, e.g. controlling accuracy
  * 
@@ -8,6 +9,9 @@ package primitives;
 public abstract class Util {
 	// It is binary, equivalent to ~1/1,000,000,000,000 in decimal (12 digits)
 	private static final int ACCURACY = -40;
+
+	
+	private static  Random random = new Random();
 
 	/**
 	 * Empty private constructor to hide the public one
@@ -91,5 +95,11 @@ public abstract class Util {
 				- radius * radius;
 		return new double[] { a, b, c };
 	}
-
+	
+	/**
+	 * provide randome (-1,1)
+	 * @return
+	 */
+	public static  int randomSign(){return  random.nextBoolean()? 1:-1; }
 }
+

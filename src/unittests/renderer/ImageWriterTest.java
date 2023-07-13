@@ -7,7 +7,7 @@ import primitives.Color;
 /**
  * test class to check all function of Image Writer class
  * 
- * @author David
+ * @author Michal
  *
  */
 class ImageWriterTest {

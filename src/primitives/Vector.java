@@ -121,4 +121,15 @@ public class Vector extends Point {
 	public Vector normalize() {
 		return new Vector(this.xyz.reduce(this.length()));
 	}
+	
+	  /**
+     * create vector  normal to this vector
+     * @return
+     */
+    public Vector createNormal() {
+        if (Util.isZero(this.getX()))
+            return new Vector(1, 0, 0);
+
+        return new Vector(this.getY(), -this.getX(), 0).normalize();
+    }
 }

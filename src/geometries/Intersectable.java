@@ -1,34 +1,39 @@
 package geometries;
 
 import java.util.List;
+
+import primitives.BoundingBox;
 import primitives.Point;
 import primitives.Ray;
 
 /**
- * interface of Intersectable by ray
+ * Interface for objects that can be intersected by a ray.
  */
 public abstract class Intersectable {
 
+	private final boolean boundingBoxOn = true;
+	protected BoundingBox boundingBox = new BoundingBox();
+	
 	/**
-	 * class contain point on geometry and the geometry
+	 * Represents a point on a geometry shape along with the geometry itself.
 	 */
 	public static class GeoPoint {
 
 		/**
-		 * geometry shape
+		 * The geometry shape.
 		 */
 		public Geometry geometry;
 
 		/**
-		 * point on geometry shape
+		 * The point on the geometry shape.
 		 */
 		public Point point;
 
 		/**
 		 * Constructs a GeoPoint object with the specified geometry and point.
-		 * 
-		 * @param geometry the geometry
-		 * @param point    the point
+		 *
+		 * @param geometry The geometry shape.
+		 * @param point    The point on the geometry shape.
 		 */
 		public GeoPoint(Geometry geometry, Point point) {
 			this.geometry = geometry;
@@ -37,15 +42,9 @@ public abstract class Intersectable {
 
 		@Override
 		public boolean equals(Object obj) {
-			if (obj == null)
-				return false;
 			if (this == obj)
 				return true;
-			if (!(obj instanceof GeoPoint))
-				return false;
-
-			GeoPoint other = (GeoPoint) obj;
-			return this.geometry.equals(other.geometry) && this.point.equals(other.point);
+			return obj instanceof GeoPoint other && this.geometry == other.geometry && this.point.equals(other.point);
 		}
 
 		@Override
@@ -55,32 +54,51 @@ public abstract class Intersectable {
 	}
 
 	/**
-	 * Find intersections between the geometry object and a ray
-	 * 
-	 * @param ray the ray to intersect
-	 * @return the intersections' list
+	 * Finds intersections between the geometry object and a ray.
+	 *
+	 * @param ray The ray to intersect.
+	 * @return The list of intersection points, or null if no intersections occur.
 	 */
-	public List<Point> findIntersections(Ray ray) {//מוצא חיתוך של גוף מהקרן
+	public final List<Point> findIntersections(Ray ray) {
 		var geoList = findGeoIntersections(ray);
 		return geoList == null ? null : geoList.stream().map(gp -> gp.point).toList();
 	}
 
 	/**
-	 * get ray for intersect return list of geoPoints
-	 * 
-	 * @param ray direction ray
-	 * @return all Intersect points or null if no intersect
+	 * Finds the geometric intersection points between the geometry object and a
+	 * ray, considering a maximum distance.
+	 *
+	 * @param ray The ray to intersect.
+	 * @return The list of geometric intersection points, or null if no
+	 *         intersections occur.
 	 */
-	protected List<GeoPoint> findGeoIntersections(Ray ray) {//מוצא של גוף הקרוב ביותר מהקרן 
-		return findGeoIntersectionsHelper(ray);
+	public final List<GeoPoint> findGeoIntersections(Ray ray) {
+		return findGeoIntersections(ray, Double.POSITIVE_INFINITY);
 	}
 
 	/**
-	 * get ray for intersect return list of geoPoints
-	 * 
-	 * @param ray direction ray
-	 * @return all Intersect points or null if no intersect
+	 * Finds the geometric intersection points between the geometry object and a
+	 * ray, up to a maximum distance.
+	 *
+	 * @param ray      The ray to intersect.
+	 * @param maxDistance The maximum distance to consider for intersections.
+	 * @return The list of geometric intersection points, or null if no
+	 *         intersections occur.
 	 */
-	protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
+	public final List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
+		if(boundingBoxOn && !this.boundingBox.intersectionBox(ray))
+            return null;
+		return findGeoIntersectionsHelper(ray, maxDistance);
+	}
 
+	/**
+	 * Finds the geometric intersection points between the geometry object and a
+	 * ray.
+	 *
+	 * @param ray      The ray to intersect.
+	 * @param distance The maximum distance to consider for intersections.
+	 * @return The list of geometric intersection points, or null if no
+	 *         intersections occur.
+	 */
+	protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double distance);
 }

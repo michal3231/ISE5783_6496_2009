@@ -232,8 +232,9 @@ public class Camera {
 		int ny = imageWriter.getNy();
 
 		// loop over all pixels
-		for (int i = 0; i < this.imageWriter.getNy(); ++i) {
-			for (int j = 0; j < this.imageWriter.getNx(); ++j) {
+		for (int i = 0; i < ny; ++i) {
+			for (int j = 0; j < nx; ++j) {
+
 				// construct ray and send it to the ray tracer to get the color
 				var color = rayTracer.traceRay(constructRay(nx, ny, j, i));
 

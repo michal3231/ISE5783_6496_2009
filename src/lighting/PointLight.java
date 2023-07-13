@@ -9,7 +9,7 @@ import primitives.Vector;
  */
 public class PointLight extends Light implements LightSource {
 
-    private Point position;
+    private final Point position;
 
     private double kc = 1;
     private double kl = 0;
@@ -36,10 +36,7 @@ public class PointLight extends Light implements LightSource {
 
     @Override
     public Vector getL(Point p) {
-        if (p.equals(position)) {
-            return null;
-        }
-        return p.subtract(position).normalize();
+        return p.equals(position) ? null : p.subtract(position).normalize();
     }
 
     // ***************** Setters (builder pattern) ********************** //
@@ -75,5 +72,11 @@ public class PointLight extends Light implements LightSource {
     public PointLight setKq(double kq) {
         this.kq = kq;
         return this;
+    }
+    
+
+    @Override
+    public double getDistance(Point point) {
+        return  position.distance(point);
     }
 }

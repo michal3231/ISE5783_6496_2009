@@ -8,7 +8,7 @@ import scene.Scene;
  * Base class for Ray Tracers. A Ray Tracer is responsible for rendering images
  * by tracing rays in a scene.
  * 
- * @author David
+ * @author michal
  *
  */
 public abstract class RayTracerBase {

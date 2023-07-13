@@ -5,7 +5,7 @@ import java.util.List;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
-import primitives.Util;
+import static primitives.Util.*;
 
 /**
  * Plane class represents two-dimensional plane in 3D Cartesian coordinate
@@ -81,7 +81,7 @@ public class Plane extends Geometry {
 	}
 
 	@Override
-	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
 		Point rayP0 = ray.getP0();
 		Vector rayDirection = ray.getDirection();
 
@@ -90,16 +90,24 @@ public class Plane extends Geometry {
 		if (rayP0.equals(this.p0))
 			return null;
 
-		// the cosine of the angle between the ray and the normal to the plane
+		// The cosine of the angle between the ray and the normal to the plane
 		double dotProduct = this.normal.dotProduct(rayDirection);
-		// if the ray is parallel to the plane - there are no intersections
-		if (Util.isZero(dotProduct)) // cosine = 0 for a right angle (90 degrees)
+
+		// If the ray is parallel to the plane - there are no intersections
+		if (isZero(dotProduct)) // cosine = 0 for a right angle (90 degrees)
 			return null;
 
-		// direction to plane p0 from ray p0
+		// Direction to plane p0 from ray p0
 		Vector p0direction = p0.subtract(rayP0);
-		// distance from the ray head to the intersection point
-		double distance = Util.alignZero(this.normal.dotProduct(p0direction) / dotProduct);
-		return distance <= 0 ? null : List.of(new GeoPoint(this, ray.getPoint(distance)));
+
+		// Distance from the ray head to the intersection point
+		double distance = alignZero(this.normal.dotProduct(p0direction) / dotProduct);
+
+		// Check if the distance is within the maximum distance
+		if (distance <= 0 || alignZero(distance - maxDistance) > 0)
+			return null;
+
+		return List.of(new GeoPoint(this, ray.getPoint(distance)));
 	}
+
 }

@@ -4,6 +4,7 @@ import static primitives.Util.isZero;
 
 import java.util.List;
 
+import primitives.BoundingBox;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
@@ -52,6 +53,45 @@ public class Polygon extends Geometry {
 		// polygon with this plane.
 		// The plane holds the invariant normal (orthogonal unit) vector to the polygon
 		plane = new Plane(vertices[0], vertices[1], vertices[2]);
+		
+		// build a bounding box
+		// search in all vertices
+		// for the min and max X,Y,Z
+		double xMax = Double.NEGATIVE_INFINITY;
+		double xMin = Double.MAX_VALUE;
+
+		double yMax = Double.NEGATIVE_INFINITY;
+		double yMin = Double.MAX_VALUE;
+
+		double zMax = Double.NEGATIVE_INFINITY;
+		double zMin = Double.MAX_VALUE;
+
+		for (Point p : vertices) {
+
+			// check x
+			if (p.getX() < xMin)
+				xMin = p.getX();
+
+			if (p.getX() > xMax)
+				xMax = p.getX();
+
+			// check y
+			if (p.getY() < yMin)
+				yMin = p.getY();
+
+			if (p.getY() > yMax)
+				yMax = p.getY();
+
+			// check z
+			if (p.getZ() < zMin)
+				zMin = p.getZ();
+
+			if (p.getZ() > zMax)
+				zMax = p.getZ();
+		}
+		boundingBox = new BoundingBox(new Point(xMin, yMin, zMin), new Point(xMax, yMax, zMax));
+		
+		
 		if (size == 3)
 			return; // no need for more tests for a Triangle
 
@@ -89,7 +129,50 @@ public class Polygon extends Geometry {
 	}
 
 	@Override
-	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-		return null;
+	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
+
+		if (!this.boundingBox.intersectionBox(ray))
+			return null;
+
+		// get Intersections of plane
+		List<GeoPoint> planeIntersections = plane.findGeoIntersections(ray, maxDistance);
+		if (planeIntersections == null)
+			return null;
+
+		Point p0 = ray.getP0();
+		Vector rayDir = ray.getDirection();
+
+		// all the vectors ( (v1-p0)x(v2-p0) ) * (ray dir) should be the same signe
+		// else the ray outside the polygon
+
+		// first check the sign of dot product the last and the first
+		Vector v1 = vertices.get(0).subtract(p0);
+		Vector v2 = vertices.get(vertices.size() - 1).subtract(p0);
+
+		double s1 = rayDir.dotProduct(v2.crossProduct(v1));
+
+		// if the ray cross in the edge of the polygon
+		if (isZero(s1))
+			return null;
+
+		// keep the next product
+		double s2;
+		for (var vertex : vertices.subList(1, vertices.size())) {
+
+			v2 = vertex.subtract(p0);
+			s2 = rayDir.dotProduct(v1.crossProduct(v2));
+
+			// if the ray cross in the edge of the polygon
+			if (isZero(s2))
+				return null;
+
+			// if they not the same sign
+			if (s1 * s2 < 0)
+				return null;
+
+			v1 = v2;
+		}
+
+		return planeIntersections.stream().map(gp -> new GeoPoint(this, gp.point)).toList();
 	}
 }

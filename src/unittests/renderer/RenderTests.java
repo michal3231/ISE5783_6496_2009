@@ -10,6 +10,7 @@ import lighting.AmbientLight;
 import primitives.*;
 import renderer.*;
 import scene.Scene;
+import scene.XML;
 
 /**
  * Test rendering a basic image
@@ -83,4 +84,23 @@ public class RenderTests {
 		camera.writeToImage();
 	}
 
+	/** Test for XML based scene - for bonus */
+	@Test
+	public void basicRenderXml() {
+		Scene scene = new Scene("XML Test scene");
+		String FOLDER_PATH = System.getProperty("user.dir") + "/xml/basicRenderTestTwoColors.xml";
+		try {
+			XML.sceneParser(scene, FOLDER_PATH);
+		} catch (Exception e) {
+			System.out.print(FOLDER_PATH);
+		}
+
+		Camera camera = new Camera(Point.ZERO, new Vector(0, 0, -1), new Vector(0, 1, 0)) //
+				.setVPDistance(100) //
+				.setVPSize(500, 500).setImageWriter(new ImageWriter("xml render test", 1000, 1000))
+				.setRayTracer(new RayTracerBasic(scene));
+		camera.renderImage();
+		camera.printGrid(100, new Color(YELLOW));
+		camera.writeToImage();
+	}
 }

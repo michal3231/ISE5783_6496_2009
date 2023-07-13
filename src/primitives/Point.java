@@ -40,6 +40,25 @@ public class Point {
 	}
 
 	/**
+	 * Getter for y coordinate
+	 * 
+	 * @return coordinate y
+	 */
+	public double getY() {
+		return xyz.d2;
+	}
+
+	/**
+	 * Getter for z coordinate
+	 * 
+	 * @return coordinate y
+	 */
+	public double getZ() {
+		return xyz.d3;
+	}
+
+	
+	/**
 	 * calculate the subtracting between two points
 	 * 
 	 * @param point other point

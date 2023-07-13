@@ -10,8 +10,7 @@ import static primitives.Util.alignZero;
  */
 public class SpotLight extends PointLight {
 
-	private Vector direction;
-	private double narrowBeam = 1;
+	private final Vector direction;
 
 	/**
 	 * Constructs a SpotLight object with the specified intensity, position, and
@@ -26,22 +25,9 @@ public class SpotLight extends PointLight {
 		this.direction = direction.normalize();
 	}
 
-	/**
-	 * setter for narrowBeam
-	 *
-	 * @param narrowBeam the new value for narrowBeam
-	 * @return this light
-	 */
-	public SpotLight setNarrowBeam(double narrowBeam) {
-		this.narrowBeam = narrowBeam;
-		return this;
-	}
-
 	@Override
 	public Color getIntensity(Point p) {
 		double projection = alignZero(direction.dotProduct(getL(p)));
-		double factor = Math.max(0, projection);
-		Color pointlightIntensity = super.getIntensity(p);
-		return pointlightIntensity.scale(factor);
+		return projection <= 0 ? Color.BLACK : super.getIntensity(p).scale(projection);
 	}
 }
